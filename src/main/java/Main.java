@@ -4,6 +4,11 @@ import ratpack.server.RatpackServer;
 import ratpack.groovy.template.TextTemplateModule;
 import ratpack.guice.Guice;
 
+import static javax.measure.unit.SI.KILOGRAM;
+import javax.measure.quantity.Mass;
+import org.jscience.physics.model.RelativisticModel;
+import org.jscience.physics.amount.Amount;
+
 import static ratpack.groovy.Groovy.groovyTemplate;
 
 import java.util.*;
@@ -25,7 +30,9 @@ public class Main {
             .get(ctx -> ctx.render(groovyTemplate("index.html")))
 
             .get("hello", ctx -> {
-              ctx.render("Hello!");
+              RelativisticModel.select();
+              Amount<Mass> m = Amount.valueOf("12 GeV").to(KILOGRAM);
+              ctx.render("E=mc^2: 12 GeV = " + m.toString());
             })
 
             .get("db", ctx -> {
